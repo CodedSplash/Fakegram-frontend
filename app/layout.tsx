@@ -1,9 +1,7 @@
-import type { Metadata, NextPage } from 'next';
-import { Inter } from 'next/font/google';
+import { NotificationsProvider } from '@/app/providers/@x/withNotifications';
 import '@/app/styles/globals.css';
+import type { Metadata, NextPage } from 'next';
 import React from 'react';
-
-const inter = Inter({ subsets: ['cyrillic', 'latin'], display: 'swap' });
 
 export const metadata: Metadata = {
   title: 'Fakegram',
@@ -13,7 +11,9 @@ export const metadata: Metadata = {
 const RootLayout: NextPage<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang='ru'>
-      <body className={inter.className}>{children}</body>
+      <body>
+        <NotificationsProvider>{children}</NotificationsProvider>
+      </body>
     </html>
   );
 };

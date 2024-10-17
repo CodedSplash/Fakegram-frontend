@@ -9,3 +9,21 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
 }
+
+.notificationsContainer {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 999;
+  max-width: 400px;
+  padding-left: 15px;
+  padding-bottom: 15px;
+}
+
+.notificationsLi {
+  list-style: none;
+}
+
+.notificationsLi:not(:last-child) {
+  margin-bottom: 10px;
+}

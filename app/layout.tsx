@@ -1,5 +1,7 @@
+import { GlobalThemeProvider } from '@/app/providers';
 import { NotificationsProvider } from '@/app/providers/@x/withNotifications';
 import '@/app/styles/globals.css';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import type { Metadata, NextPage } from 'next';
 import React from 'react';
 
@@ -12,7 +14,11 @@ const RootLayout: NextPage<{ children: React.ReactNode }> = ({ children }) => {
   return (
     <html lang='ru'>
       <body>
-        <NotificationsProvider>{children}</NotificationsProvider>
+        <AppRouterCacheProvider>
+          <GlobalThemeProvider>
+            <NotificationsProvider>{children}</NotificationsProvider>
+          </GlobalThemeProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );

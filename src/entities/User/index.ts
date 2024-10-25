@@ -1,1 +1,1 @@
-export { signUp } from '@/entities/User/api/auth';
+export { signIn, signUp } from '@/entities/User/api/auth';

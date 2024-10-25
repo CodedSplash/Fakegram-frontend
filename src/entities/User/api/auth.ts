@@ -1,7 +1,7 @@
 'use server';
 
 import { api } from '@/shared/api';
-import { IAuthInitialState, IAuthResponse, IDefaultError, ISignUpData } from '@/shared/model';
+import { IAuthInitialState, IAuthResponse, IDefaultError, ISignInData, ISignUpData } from '@/shared/model';
 import { z } from 'zod';
 
 const authErrorData: IDefaultError = {
@@ -36,6 +36,19 @@ const SignUpSchema = z.object({
   fullDateBirth: z.string().trim().date('Введите дату'),
 });
 
+const SignInSchema = z.object({
+  username: z
+    .string()
+    .trim()
+    .min(6, 'Минимальная длина логина должна быть 6 символов')
+    .max(20, 'Максимальная длина логина должна быть 20 символов'),
+  password: z
+    .string()
+    .trim()
+    .min(8, 'Минимальная длина пароля должна быть 8 символов')
+    .max(15, 'Максимальная длина пароля должна быть 15 символов'),
+});
+
 export async function signUp(
   _prevState: IAuthInitialState | IDefaultError | z.typeToFlattenedError<ISignUpData>,
   formData: FormData,
@@ -58,6 +71,30 @@ export async function signUp(
 
   try {
     const { data, status } = await api.post<IAuthResponse>('/auth/registration', rawFormData);
+
+    return { data, status };
+  } catch {
+    return { data: authErrorData.data, status: 500 };
+  }
+}
+
+export async function signIn(
+  _prevState: IAuthInitialState | IDefaultError | z.typeToFlattenedError<ISignInData>,
+  formData: FormData,
+): Promise<IAuthInitialState | IDefaultError | z.typeToFlattenedError<ISignInData>> {
+  const rawFormData = {
+    username: formData.get('username'),
+    password: formData.get('password'),
+  };
+
+  const validateSignInData = SignInSchema.safeParse(rawFormData);
+
+  if (!validateSignInData.success) {
+    return validateSignInData.error.flatten();
+  }
+
+  try {
+    const { data, status } = await api.post<IAuthResponse>('/auth/login', rawFormData);
 
     return { data, status };
   } catch {

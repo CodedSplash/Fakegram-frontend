@@ -39,6 +39,11 @@ export interface ISignUpData {
   fullDateBirth: string;
 }
 
+export interface ISignInData {
+  username: string;
+  password: string;
+}
+
 interface ErrorData {
   status: number;
   path: string;

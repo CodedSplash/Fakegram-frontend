@@ -10,6 +10,10 @@ body {
   overflow-x: hidden;
 }
 
+input::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
 .notificationsContainer {
   position: absolute;
   top: 15px;
